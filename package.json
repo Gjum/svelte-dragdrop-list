@@ -1,7 +1,7 @@
 {
-  "name": "svelte-sortable-list",
-  "main": "SortableList.svelte",
-  "svelte": "SortableList.svelte",
+  "name": "svelte-dragdrop-list",
+  "main": "DragDropList.svelte",
+  "svelte": "DragDropList.svelte",
   "devDependencies": {
     "svelte": "^3.6.4"
   },
@@ -13,17 +13,17 @@
     "list"
   ],
   "description": "A svelte 3 component that implements a list with animated drag-n-drop functionality.",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brunomolteni/svelte-sortable-list.git"
+    "url": "git+https://github.com/Gjum/svelte-dragdrop-list.git"
   },
-  "author": "Bruno Molteni <bruno@molteni.dev>",
+  "contributors":["Bruno Molteni <bruno@molteni.dev>", "Gjum <code.gjum@gmail.com>"],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/brunomolteni/svelte-sortable-list/issues"
   },
-  "homepage": "https://github.com/brunomolteni/svelte-sortable-list#readme",
+  "homepage": "https://github.com/Gjum/svelte-dragdrop-list#readme",
   "peerDependencies": {
     "svelte": "^3.4.1"
   }
