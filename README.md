@@ -1,64 +1,66 @@
-# 🔃 SortableList
+# DragDropList
 
-This component renders a list of items which can be reordered by draggin and dropping and implements FLIP animation for adding/removing/reordering items in the list.
+This component renders a list of items which can be reordered by dragging and dropping, and uses the `flip` animation for adding/removing/reordering items in the list.
 
-To make the component work you need two thing at least: setting the `list` prop and responding to `on:reorder` event.
-
-### Basic Example ( [Open in REPL](https://svelte.dev/repl/413e33b7f34049f08e443a31d51f5367?version=3.6.4) )
+### Basic Example
 
 ```jsx
 <script>
-import SortableList from 'svelte-sortable-list';
+  import DragDropList from 'svelte-dragdrop-list';
 
-let list = ["First Item", "Second Item", "Third Item"];
-const sortList = ev => {list = ev.detail};
+  let list = ["First Item", "Second Item", "Third Item"];
 </script>
 
-<SortableList 
-    {list} 
-    on:sort={sortList}
-/>
+<DragDropList bind:list={list} />
 ```
 
-## ⤵️ Props and Slot
+## Props and Slot
 
-| name   | type      | required | default                           |
-| ------ | --------- | -------- | --------------------------------- |
-| `list` | Array     | ✔️       | ✖️                                |
-| `key`  | String    | ❌       | ✖️                                |
-| `slot` | Component | ❌       | `<p>{key ? item[key] : item}</p>` |
+| name   | type      | required | default |
+| ------ | --------- |:--------:| ------- |
+| `list` | Array     | ✔️       | ✖️ |
+| `key`  | Function  | ❌       | `item => item` |
+| `slot` | Component | ❌       | `<p>{key(item)}</p>` |
 
-The way this works is that you are required to pass a `list` prop to the component, which could be an array with anything inside, but if the array contains objects or arrays you must pass the `key` prop to specify what property is going to be used as key (needs to be unique to each object in the array).
+You are required to pass a `list` prop to the component, for example by using `bind:list={myList}` for two-way binding,
+or with `list={myList} on:reordered={onReordered}` if you need to do more event handling.
+The list must be an array and may contain anything, but if the array contains objects or arrays you must pass the `key` prop to specify what property is going to be used as key (needs to be unique to each object in the array).
 
-You can customize what element is used as the list item passing any element as the child. If you do this you can access the item data by setting `let:item` on `<SortableList>` and `{item}` on your element ( you can also access the index in `let:index`).
+You can customize what element is used as the list item passing any element as the child.
+If you do this you can access the item data by setting `let:item` on `<SortableList>` and `{item}` on your element.
+You can also access the index by using `let:index`.
 
-## ⤴️ Events
+## Events
 
 The component handles all the internal functionality but since you are passing the list as a prop, it can't actually change the data you pass to it, so you need to respond to an event that gets triggered any time you sort items.
 This is done using the `on:sort` event handler, which gets passed an `event` object that contains the list inside the `details` property ( this is the default way of handling event data in svelte).
 
 
-### Complete Example ( [Open in REPL](https://svelte.dev/repl/0b4fd50a87a94efd81b533229b43d941?version=3.6.4) )
+### Complete Example
 
 ```jsx
 <script>
-import SortableList from 'svelte-sortable-list';
+import DragDropList from 'svelte-dragdrop-list';
 import Component from './Component.svelte';
 
-let list = [
-	{id: 1, name: 'First Item'},
-	{id: 2, name: 'Second Item'},
-	{id: 3, name: 'Third Item'}
+let myList = [
+  {id: 1, name: 'First Item'},
+  {id: 2, name: 'Second Item'},
+  {id: 3, name: 'Third Item'}
 ];
-const sortList = ev => {list = ev.detail};
+function onReordered(ev) {
+  myList = ev.detail;
+  console.log("List was reordered");
+}
 </script>
 
-<SortableList 
-    {list} 
-    key="id" 
-    on:sort={sortList}
-    let:item 
+<DragDropList 
+  list={myList} 
+  key={item => item.id}
+  on:reordered={onReordered}
+  let:item
+  let:index
 >
-    <Component {item} />
-</SortableList>
+  <Component {index} {item} />
+</DragDropList>
 ```
